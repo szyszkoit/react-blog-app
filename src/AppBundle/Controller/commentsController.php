@@ -13,17 +13,55 @@ use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\HttpFoundation\Session\Session;
+use AppBundle\Entity\BlogComments;
+
 
 
 class commentsController extends Controller
 {
 
     /**
-     * @Route("/addcomment", name="addComment")
+     * @Route("/addcomment", name="addcomment")
      */
-    public function addCommentAction(Request $request)
+    public function addCommentAction(Request $request, UserInterface $user)
     {
         $req = $request->request->all();
-        return new Response(json_encode($req, true), 200);
+        if($this->get('session')->get('api_token')) {
+            $entityManager = $this->getDoctrine()->getManager();
+            $comment = new BlogComments();
+            $comment->setAuthorId($user->getUserId());
+            $comment->setPostId($req["_postID"]);
+            $comment->setComment($req["_comment"]);
+            $comment->setDateAdd(new \Datetime());
+
+            $entityManager->persist($comment);
+            $entityManager->flush();
+
+        }else{
+            $token = 'please log in';
+        }
+        return new Response(json_encode("Comment added successfully", true), 200);
+    }
+
+    /**
+     * @Route("/getpostcomments", name="getpostcomments")
+     */
+    public function getPostCommentsAction(Request $request)
+    {
+        $req = $request->request->all();
+        //$em = $this->getDoctrine()->getManager();
+
+        $ems = $this->getDoctrine()->getManager()->createQueryBuilder()
+            ->from('AppBundle:BlogComments', 'd')
+            ->select("d")
+            ->where("d.postId = '".$req['_postID']."'" )
+            ->getQuery();
+        $data = $ems->getArrayResult();
+
+//        $comments = $em->find(
+//            array('postId' => $req->get('_postID')),
+//            array('dateAdd' => 'ASC')
+//        );
+        return new Response(json_encode($data, true), 200);
     }
 }

@@ -29,7 +29,7 @@ class AddCommentForm extends Component {
         const data = new FormData(event.target);
         $.ajax({
             type: 'POST',
-            url: addComment,
+            url: '/addcomment',
             data: {
                 _comment: data.get('comment'),
                 _postID: self.props.postID
@@ -62,9 +62,11 @@ class AddCommentForm extends Component {
                                     <FormControl componentClass="textarea" name="comment" placeholder="Treść" />
                                 </FormGroup>
 
-                                <Col className="text-right" xs={12}>
+                                {/*<Col className="text-right" xs={12}>*/}
+                                <div className="text-right">
                                     <Button type="submit">Wyślij</Button>
-                                </Col>
+                                </div>
+                                {/*</Col>*/}
                             </Form>
                             {/*<Col className="text-center login-error" xs={12}>*/}
                                 {/*<p>error</p>*/}

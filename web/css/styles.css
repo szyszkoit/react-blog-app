@@ -1,0 +1,44 @@
+a.active {
+    background-color: #e8e8e8;
+}
+ul{
+    list-style-type:none;
+}
+.post-container{
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+.post-div{
+    max-width: 25%;
+    min-width: 200px;
+    margin: 20px;
+}
+.post-div-img{
+    height: 200px;
+    width: 100%;
+    overflow: hidden;
+}
+.post-div-img img{
+    height: auto;
+    width: 100%;
+}
+.post-div img{
+    width: 100%;
+}
+.post-div-title{
+    padding: 10px 0;
+}
+.addCommentRow div{
+    background-color: transparent !important;
+    border: none;
+}
+.addCommentRow .panel-body, .addCommentRow .panel-heading{
+    padding: 0
+}
+.commentListRow .list-group-item{
+    border-radius: 0;
+}
+@media (max-width: 767px) {
+    .post-div{}
+}

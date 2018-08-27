@@ -56,7 +56,7 @@ class App extends React.Component {
   }
         render() {
           return (
-            <Header posts={this.state.posts} />
+            <Header posts={this.state.posts}/>
           )
         }
 }

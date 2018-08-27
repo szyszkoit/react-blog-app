@@ -35,7 +35,7 @@ class Header extends Component {
   onLogout (){
     sessionStorage.removeItem('api_token');
     this.setState({authenticated: false});
-    window.location.href="/";
+    window.location.href="/logout";
   }
   render(){
 

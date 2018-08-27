@@ -17,6 +17,12 @@ postDetails:
         slug: .*/$
         _method:  GET
 
+getPostComments:
+    path:  /getpostcomments
+    defaults: { _controller: AppBundle:comments:getPostComments }
+    requirements:
+        _method:  POST
+
 postDetailsData:
     path:  /getdata/post/{slug}
     defaults: { _controller: AppBundle:posts:postDetailsData }

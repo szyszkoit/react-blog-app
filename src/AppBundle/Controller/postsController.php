@@ -19,19 +19,6 @@ class postsController extends Controller
 {
 
     /**
-     * @Route("/addcomment", name="addcomment")
-     */
-    public function addCommentAction(Request $request)
-    {
-        $em = $this->getDoctrine()->getManager();
-        $query = $em->createQuery(
-            "SELECT c FROM AppBundle:BlogPosts c"
-        );
-        $result = $query->getArrayResult();
-        return new Response(json_encode($result, true), 200);
-    }
-
-    /**
      * @Route("/getposts", name="getposts")
      */
     public function getPostsAction(Request $request)

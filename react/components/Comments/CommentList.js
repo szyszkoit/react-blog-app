@@ -10,22 +10,7 @@ import {
 
 class CommentList extends Component {
     render(){
-        // Get data from route props
-        // const posts = this.props.posts;
-        // //Map through cars and return linked cars
-        // const postNode = posts.map((post) => {
-        //     return (
-        //         <ListGroup>
-        //             <ListGroupItem header="Heading 1">Some body text</ListGroupItem>
-        //             <ListGroupItem header="Heading 2" href="#">
-        //                 Linked item
-        //             </ListGroupItem>
-        //             <ListGroupItem header="Heading 3" bsStyle="danger">
-        //                 Danger styling
-        //             </ListGroupItem>
-        //         </ListGroup>
-        //     )
-        // });
+        console.log(this.props);
         return (
             <Row className="commentListRow">
                 <Col sm={8}>

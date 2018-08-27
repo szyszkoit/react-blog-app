@@ -1,0 +1,54 @@
+<?php
+
+namespace AppBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * BlogComments
+ *
+ * @ORM\Table(name="blog_comments")
+ * @ORM\Entity
+ */
+class BlogComments
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="post_id", type="integer", nullable=false)
+     */
+    private $postId;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="author_id", type="integer", nullable=false)
+     */
+    private $authorId;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="comment", type="string", length=1000, nullable=false)
+     */
+    private $comment;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="date_add", type="datetime", nullable=false)
+     */
+    private $dateAdd;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $id;
+
+
+}
+

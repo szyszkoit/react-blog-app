@@ -27,7 +27,6 @@ class DefaultController extends Controller
         //$req = json_decode($req["username"], true);
         // replace this example code with whatever you need
 
-
         return $this->render('default/index.html.twig');
     }
     /**
