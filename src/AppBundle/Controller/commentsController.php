@@ -37,10 +37,11 @@ class commentsController extends Controller
             $entityManager->persist($comment);
             $entityManager->flush();
 
+            $result = $user->getUserName();
         }else{
-            $token = 'please log in';
+            $result = 'please log in';
         }
-        return new Response(json_encode("Comment added successfully", true), 200);
+        return new Response(json_encode($result, true), 200);
     }
 
     /**
@@ -51,10 +52,11 @@ class commentsController extends Controller
         $req = $request->request->all();
         //$em = $this->getDoctrine()->getManager();
 
-        $ems = $this->getDoctrine()->getManager()->createQueryBuilder()
-            ->from('AppBundle:BlogComments', 'd')
-            ->select("d")
-            ->where("d.postId = '".$req['_postID']."'" )
+        $ems = $this->getDoctrine()->getManager()->createQueryBuilder('u')
+            ->select('bc.comment', 'bu.userLogin')
+            ->from('AppBundle:BlogComments', 'bc')
+            ->leftJoin('AppBundle:BlogUser', 'bu', 'WITH', 'bc.authorId = bu.userId')
+            ->where("bc.postId = '".$req['_postID']."'" )
             ->getQuery();
         $data = $ems->getArrayResult();
 

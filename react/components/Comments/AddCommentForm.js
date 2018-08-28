@@ -18,8 +18,6 @@ import {
 class AddCommentForm extends Component {
     constructor() {
         super();
-        this.state = {
-        };
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
@@ -34,8 +32,9 @@ class AddCommentForm extends Component {
                 _comment: data.get('comment'),
                 _postID: self.props.postID
             },
-            success: function(data){
-                console.log(data);
+            success: function(username){
+                console.log(username);
+                self.props.commentsHandler(username, data.get('comment'))
             },
             error: function(error){
                 // console.log(error);

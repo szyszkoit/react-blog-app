@@ -10,24 +10,34 @@ import {
 
 class CommentList extends Component {
     render(){
-        console.log(this.props);
-        return (
-            <Row className="commentListRow">
+        if(this.props.comments.length == 0){
+          return(
+            <div></div>
+          )
+        }else {
+          const comments = this.props.comments;
+          //Map through cars and return linked cars
+          const commentNode = comments.map((comment) => {
+            return (
+              <div>
                 <Col sm={8}>
-                <h3>Komentarze</h3>
-                <ListGroup>
-                    <ListGroupItem header="Heading 1">Some body text</ListGroupItem>
-                    <ListGroupItem header="Heading 2" href="#">
-                        Linked item
-                    </ListGroupItem>
-                    <ListGroupItem header="Heading 3" bsStyle="danger">
-                        Danger styling
-                    </ListGroupItem>
-                </ListGroup>
+                  <ListGroup>
+                    <ListGroupItem header={comment.userLogin}>{comment.comment}</ListGroupItem>
+                  </ListGroup>
                 </Col>
                 <Col sm={4}></Col>
+              </div>
+            );
+          });
+          return (
+            <Row className="commentListRow">
+              <Col xs={12}>
+                <h3>Komentarze</h3>
+              </Col>
+              {commentNode}
             </Row>
-        );
+          );
+        }
     }
 }
 
