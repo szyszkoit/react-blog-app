@@ -3,7 +3,12 @@ import React, { Component, PureComponent } from 'react';
 import {Link} from 'react-router-dom';
 import AddCommentForm from '../Comments/AddCommentForm';
 import CommentList from "../Comments/CommentList";
-
+import {
+  ListGroup,
+  ListGroupItem,
+  Row,
+  Col
+} from 'react-bootstrap';
 class PostDetails extends Component {
     constructor(props) {
         super(props);
@@ -75,28 +80,33 @@ class PostDetails extends Component {
 
                 <div>
                     <h1>{this.state.post[0].title}</h1>
-                    <div className="row">
-                        <div className="col-sm-6 col-md-4">
+                    <Row>
+                        <Col sm={6} md={4}>
                             <div className="thumbnail">
                                 <img src={this.state.post[0].image} alt={this.state.post[0].title}/>
                             </div>
-                        </div>
-                        <div className="col-sm-6 col-md-4">
-                            <p>{this.state.post[0].description}</p>
-                        </div>
-                    </div>
-                    <div className="row">
+                        </Col>
+                      <Col sm={6} md={4}>
+                        <p>{this.state.post[0].description}</p>
+                      </Col>
+                    </Row>
+                    <Row className="commentListRow">
+                      <Col sm={8}>
+                        <h3>Komentarze</h3>
+                      </Col>
                         <CommentList comments={this.state.comments}/>
-                    </div>
-                    <div className="row">
+                    </Row>
+                    <Row className="addCommentRow">
                         <AddCommentForm postID={this.state.post[0].id} commentsHandler = {this.commentsHandler}/>
-                    </div>
-                    <div className="col-md-12">
-                        <Link to="/">
-                            <button className="btn btn-default">Wróć</button>
-                        </Link>
+                    </Row>
+                    <Row>
+                      <Col sm={8}>
+                          <Link to="/">
+                              <button className="btn btn-default">Wróć</button>
+                          </Link>
 
-                    </div>
+                      </Col>
+                    </Row>
                 </div>
 
             )

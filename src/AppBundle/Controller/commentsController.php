@@ -41,7 +41,7 @@ class commentsController extends Controller
         }else{
             $result = 'please log in';
         }
-        return new Response(json_encode($result, true), 200);
+        return new Response($result, 200);
     }
 
     /**

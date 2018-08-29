@@ -1,5 +1,6 @@
 import Login from './Login';
 import Home from "./Home/Home";
+import Admin from "./Admin/Admin";
 import About from "./About/About";
 import Contact from "./Contact/Contact";
 import PostDetails from "./Home/PostDetails";
@@ -77,6 +78,9 @@ class Header extends Component {
               </Nav>
               <Nav pullRight>
                 <NavItem eventKey={1} href="#">
+                  <Link to="/admin">Admin</Link>
+                </NavItem>
+                <NavItem eventKey={2} href="#">
                   {this.state.authenticated ? <Link to="/logout" onClick={this.onLogout}>Logout</Link> : <Link to="/login">Login</Link>}
                   {/*<Link to="/login">Login</Link>*/}
                 </NavItem>
@@ -91,6 +95,7 @@ class Header extends Component {
         <Route path="/about" component={About}/>
         <Route path="/login" component={MyLoginPage}/>
         <Route path="/contact" component={Contact}/>
+        <Route path="/admin" component={Admin}/>
         {/*<PrivateRoute path="/protected" component={Protected} />*/}
       </Grid>
     </Router>

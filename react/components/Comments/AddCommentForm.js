@@ -48,7 +48,6 @@ class AddCommentForm extends Component {
 
     render() {
         return (
-            <Row className="addCommentRow">
                 <Col sm={8}>
                     <Panel>
                         <Panel.Heading>Dodaj komentarz</Panel.Heading>
@@ -73,8 +72,6 @@ class AddCommentForm extends Component {
                         </Panel.Body>
                     </Panel>
                 </Col>
-                <Col sm={4}></Col>
-            </Row>
         );
     }
 }
