@@ -18,6 +18,7 @@ import {
   MenuItem,
   NavDropdown
 } from 'react-bootstrap';
+import AdminPosts from './Admin/AdminPosts'
 class Header extends Component {
   constructor(){
     super();
@@ -48,6 +49,14 @@ class Header extends Component {
         />
       );
     };
+    const MyAdminPage = (props) => {
+      return (
+        <Admin
+          posts={this.props.posts}
+          {...props}
+        />
+      );
+    }
     const MyLoginPage = (props) => {
       return (
         <Login
@@ -95,7 +104,7 @@ class Header extends Component {
         <Route path="/about" component={About}/>
         <Route path="/login" component={MyLoginPage}/>
         <Route path="/contact" component={Contact}/>
-        <Route path="/admin" component={Admin}/>
+        <Route path="/admin" component={MyAdminPage}/>
         {/*<PrivateRoute path="/protected" component={Protected} />*/}
       </Grid>
     </Router>

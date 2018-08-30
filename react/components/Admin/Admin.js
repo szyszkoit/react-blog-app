@@ -18,25 +18,30 @@ class Admin extends Component {
   constructor(){
     super();
     this.state = {
-      authenticated: sessionStorage.getItem('api_token')? true : false
 
     };
   };
   render(){
+    console.log(this.props.posts);
+    const MyAdminPostsPage = (props) => {
+      return (
+        <AdminPosts
+          posts={this.props.posts}
+          {...props}
+        />
+      );
+    }
     return(
       <Router>
         <Grid>
           <Row>
             <Col sm={3}>
               <Nav>
-
                   <Link to="/admin/posts">
                     <NavItem eventKey={1} href="#">
                       Posts
                     </NavItem>
                   </Link>
-
-
                   <Link to="/admin/users">
                     <NavItem eventKey={2} href="#">
                       Users
@@ -46,7 +51,7 @@ class Admin extends Component {
               </Nav>
             </Col>
             <Col sm={9}>
-              <Route path="/admin/posts" component={AdminPosts}/>
+              <Route path="/admin/posts" component={MyAdminPostsPage}/>
 
               <Route path="/admin/users" component={AdminUsers}/>
             </Col>
