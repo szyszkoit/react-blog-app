@@ -10,6 +10,12 @@ getPosts:
     requirements:
         _method:  POST
 
+deletePost:
+    path:  /deletepost
+    defaults: { _controller: AppBundle:adminPosts:deletepost }
+    requirements:
+        _method:  POST
+
 postDetails:
     path:  /post/{slug}
     defaults: { _controller: AppBundle:posts:postDetails }

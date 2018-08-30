@@ -20,6 +20,8 @@
     "jquery": "^3.3.1",
     "react": "^16.4.1",
     "react-bootstrap": "^0.32.1",
+    "react-bootstrap-table": "^4.3.1",
+    "react-bootstrap-table-next": "^1.1.3",
     "react-dom": "^16.4.1",
     "react-fake-props": "^0.2.1",
     "react-hot-loader": "^4.3.3",
