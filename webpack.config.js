@@ -24,7 +24,7 @@ var config = {
             }
         }, {
             test: /\.css$/,
-            loaders: ['style', 'css', 'less']
+            loader: "style-loader!css-loader"
         }]
     },
     plugins: [
