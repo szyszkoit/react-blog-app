@@ -56,7 +56,7 @@ class Header extends Component {
           {...props}
         />
       );
-    }
+    };
     const MyLoginPage = (props) => {
       return (
         <Login
