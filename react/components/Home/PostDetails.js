@@ -87,7 +87,7 @@ class PostDetails extends Component {
                             </div>
                         </Col>
                       <Col sm={6} md={4}>
-                        <p>{this.state.post[0].description}</p>
+                        {this.state.post[0].body}
                       </Col>
                     </Row>
                     <Row className="commentListRow">
