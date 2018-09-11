@@ -30,7 +30,7 @@ class loginController extends Controller
         $exception = $this->get('security.authentication_utils')
             ->getLastAuthenticationError();
         $exception = $exception ? $exception->getMessage() : NULL;
-        return $this->render('default/index.html.twig');
+        return new Response(json_encode($exception, true), 404);
     }
 
     /**

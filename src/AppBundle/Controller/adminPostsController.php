@@ -19,18 +19,58 @@ class adminPostsController extends Controller
 {
 
     /**
-     * @Route("/addpost", name="addpost")
+     * @Route("/admin/add-post", name="add-post")
      */
-    public function addPostAction(Request $request)
+    public function addPostAction(Request $request, UserInterface $user)
     {
+        $req = $request->request->all();
+        if($this->get('session')->get('api_token')) {
+            $entityManager = $this->getDoctrine()->getManager();
+            $post = new BlogPosts();
+            $post->setAuthor($user->getUserId());
+            $post->setTitle($req["_title"]);
+            $post->setSlug($req["_simpleTitle"]);
+            $post->setDescription($req["_description"]);
+            $post->setBody($req["_body"]);
+            $post->setImage($req["_image"]);
+            $post->setCreatedat(new \Datetime());
+            $post->setUpdatedat(new \Datetime());
+            $entityManager->persist($post);
+            $entityManager->flush();
+
+            $result = $user->getUserName();
+        }else{
+            $result = 'please log in';
+        }
+        return new Response($result, 200);
     }
 
 
     /**
-     * @Route("editpost/{slug}", name="editPost", requirements={"slug" = "[0-9a-zA-Z\/\-]*"})
+     * @Route("/admin/edit-post/{slug}", name="edit-post")
      */
-    public function editPostAction($slug)
+    public function editPostAction(Request $request, UserInterface $user)
     {
+        $req = $request->request->all();
+        if($this->get('session')->get('api_token')) {
+            $entityManager = $this->getDoctrine()->getManager();
+            $post = new BlogPosts();
+            $post->setAuthor($user->getUserId());
+            $post->setTitle($req["_title"]);
+            $post->setSlug($req["_simpleTitle"]);
+            $post->setDescription($req["_description"]);
+            $post->setBody($req["_body"]);
+            $post->setImage($req["_image"]);
+            $post->setCreatedat(new \Datetime());
+            $post->setUpdatedat(new \Datetime());
+            $entityManager->persist($post);
+            $entityManager->flush();
+
+            $result = $user->getUserName();
+        }else{
+            $result = 'please log in';
+        }
+        return new Response($result, 200);
     }
 
     /**

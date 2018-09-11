@@ -50,7 +50,7 @@ class postsController extends Controller
     /**
      * @Route("post/{slug}", name="postDetails", requirements={"slug" = "[0-9a-zA-Z\/\-]*"})
      */
-    public function postDetailsAction($slug)
+    public function postdetailsAction($slug)
     {
         return $this->render('default/index.html.twig');
     }

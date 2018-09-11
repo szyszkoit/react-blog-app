@@ -19,7 +19,6 @@ class DefaultController extends Controller
 
     /**
      * @Route("/", name="homepage")
-     * @Route("/{slug}", name="homepage2")
      */
     public function indexAction(Request $request, $slug = null)
     {
