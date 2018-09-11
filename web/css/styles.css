@@ -15,19 +15,18 @@ ul{
     margin: 20px;
 }
 .post-div-img{
-    height: 200px;
+    height: 250px;
     width: 100%;
+    width: 250px;
+    margin: auto;
     overflow: hidden;
-}
-.post-div-img img{
-    height: auto;
-    width: 100%;
 }
 .post-div img{
     width: 100%;
 }
 .post-div .list-group-item{
     border: none;
+    padding: 0
 }
 .post-div .list-group-item:hover{
     background-color: white;
@@ -57,8 +56,18 @@ ul{
     padding-bottom: 20px;
     border-bottom: 1px solid #ccc;
 }
+.crop-result{
+    width: 50%;
+    margin: auto;
+}
+.crop-result img{
+    max-width: 100%;
+}
 @media (max-width: 767px) {
-    .post-div{
-        width: 100%
+
+    .post-div-img{
+        height: 250px;
+        width: 250px;
+        overflow: hidden;
     }
 }
