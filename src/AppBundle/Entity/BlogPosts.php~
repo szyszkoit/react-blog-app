@@ -234,15 +234,11 @@ class BlogPosts
     /**
      * Set author
      *
-     * @param \AppBundle\Entity\BlogUser $author
-     *
-     * @return BlogPosts
+     * @return integer
      */
-    public function setAuthor(\AppBundle\Entity\BlogUser $author = null)
+    public function setAuthor()
     {
-        $this->author = $author;
-
-        return $this;
+        return $this->author;
     }
 
     /**
