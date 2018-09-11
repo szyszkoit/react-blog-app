@@ -19,6 +19,6 @@
         <option name="fixed"/>
       </options>
     </field>
-    <field name="dateAdd" type="datetime" column="date_add" nullable="false"/>
+    <field name="dateAdd" type="datetime" column="date_add" nullable="true"/>
   </entity>
 </doctrine-mapping>
