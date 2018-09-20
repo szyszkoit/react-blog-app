@@ -51,6 +51,19 @@ class EditPost extends Component {
             })
         }
     };
+    componentDidMount() {
+      document.getElementsByClassName('postTitle')[0].value = this.state.post[0].title;
+      document.getElementsByClassName('postSlug')[0].value = this.state.post[0].slug;
+      document.getElementsByClassName('postShortDescription')[0].value = this.state.post[0].description;
+      document.getElementsByClassName('ql-editor')[0].innerHTML = this.state.post[0].body;
+
+
+      var resultDiv = document.getElementsByClassName('crop-result');         // Create a text node
+      resultDiv[0].innerHTML = '';
+      var node = document.createElement("img");                 // Create a <li> node
+      node.setAttribute('src', this.state.post[0].image);
+      resultDiv[0].appendChild(node);
+    }
     onSelectFile (e) {
         if (e.target.files && e.target.files.length > 0) {
             const reader = new FileReader();
@@ -126,13 +139,14 @@ class EditPost extends Component {
         console.log(this.state.cropped);
         $.ajax({
             type: 'POST',
-            url: '/admin/add-post',
+            url: '/admin/edit-post',
             data: {
+                _postId: this.state.post[0].id,
                 _title: data.get('title'),
-                _simpleTitle: data.get('simple-title'),
+                _slug: data.get('simple-title'),
                 _description: data.get('short-description'),
                 _body: this.state.text,
-                _image: this.state.cropped
+                _image: this.state.cropped ? this.state.cropped : this.state.post[0].image
             },
             success: function(username){
                 console.log(username);
@@ -149,7 +163,6 @@ class EditPost extends Component {
     };
 
     render() {
-        console.log(this.state.post[0]);
         return (
             <Col sm={12}>
                 <Panel>
@@ -163,24 +176,25 @@ class EditPost extends Component {
                                 type="text"
                                 name="title"
                                 placeholder="Tytuł"
-                                value= {this.state.post[0].title}
+                                className = "postTitle"
                             />
                             <FormControl
                                 type="text"
                                 name="simple-title"
                                 placeholder="Nazwa uproszczona (URL)"
-                                value= {this.state.post[0].slug}
+                                className="postSlug"
                             />
                             <FormGroup controlId="shortDescription">
                                 <FormControl
                                     componentClass="textarea"
                                     name="short-description"
                                     placeholder="Krótki opis (1000 znaków)"
-                                    value= {this.state.post[0].description}
+                                    className="postShortDescription"
                                 />
                             </FormGroup>
-                            <ReactQuill value={this.state.post[0].body}
+                            <ReactQuill
                                         onChange={this.handleChange}
+                                        className = "postBody"
                                         theme="snow"
                             />
                             <div>

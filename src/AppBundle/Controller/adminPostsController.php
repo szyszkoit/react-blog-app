@@ -47,25 +47,26 @@ class adminPostsController extends Controller
 
 
     /**
-     * @Route("/admin/edit-post/{slug}", name="edit-post")
+     * @Route("/admin/edit-post", name="edit-post")
      */
     public function editPostAction(Request $request, UserInterface $user)
     {
         $req = $request->request->all();
+        $em = $this->getDoctrine()->getManager();
+        $post = $em->getRepository(BlogPosts::class)->find($req['_postId']);
+        if (!$post) {
+            throw $this->createNotFoundException(
+                'No product found for id '.$req['_postId']
+            );
+        }
         if($this->get('session')->get('api_token')) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $post = new BlogPosts();
-            $post->setAuthor($user->getUserId());
-            $post->setTitle($req["_title"]);
-            $post->setSlug($req["_simpleTitle"]);
-            $post->setDescription($req["_description"]);
-            $post->setBody($req["_body"]);
-            $post->setImage($req["_image"]);
-            $post->setCreatedat(new \Datetime());
+            $post->setTitle($req['_title']);
+            $post->setSlug($req['_slug']);
+            $post->setDescription($req['_description']);
+            $post->setBody($req['_body']);
+            $post->setImage($req['_image']);
             $post->setUpdatedat(new \Datetime());
-            $entityManager->persist($post);
-            $entityManager->flush();
-
+            $em->flush();
             $result = $user->getUserName();
         }else{
             $result = 'please log in';
@@ -74,7 +75,7 @@ class adminPostsController extends Controller
     }
 
     /**
-     * @Route("detelepost", name="deletepost", requirements={"slug" = "[0-9a-zA-Z\/\-]*"})
+     * @Route("detelepost", name="deletepost")
      */
     public function deletePostAction(Request $request)
     {

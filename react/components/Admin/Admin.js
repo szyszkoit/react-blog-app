@@ -20,6 +20,24 @@ class Admin extends Component {
         this.deletePost = this.deletePost.bind(this);
     }
 
+    componentWillMount(){
+      var self = this;
+      $.ajax({
+        type: 'POST',
+        url: '/admin',
+        data: {
+          _token: sessionStorage.getItem('api_token')
+    ,
+        },
+        success: function (data) {
+          console.log(data);
+        },
+        error: function (error) {
+          // console.log(error);
+            window.location.href="/";
+        }
+      });
+    }
 
     componentDidMount(){
         {
@@ -83,9 +101,9 @@ class Admin extends Component {
             <Col sm={12}>
               <Nav>
                   <Link to="/admin/posts">
-                    <NavItem eventKey={1} href="#">
-                      Posts
-                    </NavItem>
+                      <div className="adminTile">
+                        Posts
+                      </div>
                   </Link>
               </Nav>
             </Col>

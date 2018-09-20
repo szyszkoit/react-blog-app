@@ -16,11 +16,17 @@ use Symfony\Component\HttpFoundation\Session\Session;
 class loginController extends Controller
 {
 
+
+
     /**
      * @Route("/login", name="login")
      */
     public function loginAction(Request $request)
     {
+        $req = $request->request->all();
+        if(sizeof($req) == 0){
+            return $this->render('default/index.html.twig');
+        }
         $user = $this->getUser();
         if ($user instanceof UserInterface) {
             return new Response(json_encode($user, true), 200);
@@ -31,6 +37,7 @@ class loginController extends Controller
             ->getLastAuthenticationError();
         $exception = $exception ? $exception->getMessage() : NULL;
         return new Response(json_encode($exception, true), 404);
+
     }
 
     /**
