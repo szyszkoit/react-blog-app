@@ -2,6 +2,8 @@
 // src/AppBundle/Security/FormAuthenticator.php
 namespace AppBundle\Security;
 
+use AppBundle\Entity\BlogUser;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -9,6 +11,8 @@ use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Exception\CustomUserMessageAuthenticationException;
 use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
 use Symfony\Component\Security\Core\Security;
+use Doctrine\ORM\EntityManager;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Security\Core\User\InMemoryUserProvider;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Guard\AbstractGuardAuthenticator;
@@ -38,10 +42,12 @@ class FormAuthenticator extends AbstractGuardAuthenticator
 
     private $apiToken;
 
-    public function __construct(RouterInterface $router) {
-        $this->router = $router;
-    }
+    protected $manager;
 
+    public function __construct(RouterInterface $router, EntityManager $manager) {
+        $this->router = $router;
+        $this->manager = $manager;
+    }
     /**
      * {@inheritdoc}
      */
@@ -93,7 +99,11 @@ class FormAuthenticator extends AbstractGuardAuthenticator
     private function saveToken($token){
         $session = new Session();
         $session->set('api_token', $this->generateToken($token));
-        return new Response($session->get('api_token'));
+        $em = $this->manager->getRepository(BlogUser::class)->findOneBy(array('userLogin' => $token->getUser()->getUserLogin()));
+        $em->setApiToken($session->get('api_token'));
+        $this->manager->flush();
+
+        return new JsonResponse(array('api_token' => $session->get('api_token'), 'role'=>$token->getUser()->getUserType()));
     }
 
     /**

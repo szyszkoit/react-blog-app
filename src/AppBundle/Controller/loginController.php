@@ -28,6 +28,7 @@ class loginController extends Controller
             return $this->render('default/index.html.twig');
         }
         $user = $this->getUser();
+
         if ($user instanceof UserInterface) {
             return new Response(json_encode($user, true), 200);
         }

@@ -67,7 +67,7 @@ class adminPostsController extends Controller
             $post->setImage($req['_image']);
             $post->setUpdatedat(new \Datetime());
             $em->flush();
-            $result = $user->getUserName();
+            $result = 'updated successfully';
         }else{
             $result = 'please log in';
         }
