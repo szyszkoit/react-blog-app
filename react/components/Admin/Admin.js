@@ -15,28 +15,33 @@ class Admin extends Component {
     constructor() {
         super();
         this.state = {
-            posts: []
+            posts: [],
+            admin: false
         };
         this.deletePost = this.deletePost.bind(this);
     }
 
-    componentWillMount(){
-      var self = this;
-      $.ajax({
-        type: 'POST',
-        url: '/admin',
-        data: {
-          _token: sessionStorage.getItem('api_token')
-    ,
-        },
-        success: function (data) {
-          console.log(data);
-        },
-        error: function (error) {
-          // console.log(error);
-            window.location.href="/";
+    componentWillUpdate(){
+        if(!this.props.admin) {
+            var self = this;
+            $.ajax({
+                type: 'POST',
+                url: '/auth',
+                success: function (data) {
+                    //var admin;
+                    if (data != 'ROLE_ADMIN') {
+                        window.location.href = "/";
+                    } else {
+                        self.setState({admin: true})
+                    }
+                    //self.setState({authenticated: true, admin: admin});
+                },
+                error: function (error) {
+                    // console.log(error);
+                    window.location.href = "/";
+                }
+            });
         }
-      });
     }
 
     componentDidMount(){
@@ -94,31 +99,37 @@ class Admin extends Component {
         />
       );
     };
-    return(
-      <Router>
-        <Grid>
-          <Row>
-            <Col sm={12}>
-              <Nav>
-                  <Link to="/admin/posts">
-                      <div className="adminTile">
-                        Posts
-                      </div>
-                  </Link>
-              </Nav>
-            </Col>
-          </Row>
-          <Row>
-            <Col sm={12}>
-              <Route path="/admin/posts" component={MyAdminPostsPage}/>
-              <Route path="/admin/add-post" component={AddPost}/>
-              <Route path="/admin/edit-post/:slug" component={MyEditPostPage}/>
-            </Col>
-          </Row>
-          {/*<PrivateRoute path="/protected" component={Protected} />*/}
-        </Grid>
-      </Router>
-    )
+    if(this.props.admin){
+        return(
+            <Router>
+                <Grid>
+                    <Row>
+                        <Col sm={12}>
+                            <Nav>
+                                <Link to="/admin/posts">
+                                    <div className="adminTile">
+                                        Posts
+                                    </div>
+                                </Link>
+                            </Nav>
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col sm={12}>
+                            <Route path="/admin/posts" component={MyAdminPostsPage}/>
+                            <Route path="/admin/add-post" component={AddPost}/>
+                            <Route path="/admin/edit-post/:slug" component={MyEditPostPage}/>
+                        </Col>
+                    </Row>
+                    {/*<PrivateRoute path="/protected" component={Protected} />*/}
+                </Grid>
+            </Router>
+        )
+    }else{
+        return(
+            <div></div>
+        )
+    }
   }
 }
 

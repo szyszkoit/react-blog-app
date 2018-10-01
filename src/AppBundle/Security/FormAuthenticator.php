@@ -72,12 +72,12 @@ class FormAuthenticator extends AbstractGuardAuthenticator
 //            return 'fdsafdsafasdfsa';
 //        0}
 
-//        try {
+        try {
             return $userProvider->loadUserByUsername($credentials['username']);
-//        }
-//        catch (UsernameNotFoundException $e) {
-//            throw new CustomUserMessageAuthenticationException($this->failMessage);
-//        }
+        }
+        catch (UsernameNotFoundException $e) {
+            throw new CustomUserMessageAuthenticationException($this->failMessage);
+        }
     }
 
     /**
@@ -99,11 +99,11 @@ class FormAuthenticator extends AbstractGuardAuthenticator
     private function saveToken($token){
         $session = new Session();
         $session->set('api_token', $this->generateToken($token));
-        $em = $this->manager->getRepository(BlogUser::class)->findOneBy(array('userLogin' => $token->getUser()->getUserLogin()));
-        $em->setApiToken($session->get('api_token'));
-        $this->manager->flush();
+       //$em = $this->manager->getRepository(BlogUser::class)->findOneBy(array('userLogin' => $token->getUser()->getUserLogin()));
+        //$em->setApiToken($session->get('api_token'));
+        //$this->manager->flush();
 
-        return new JsonResponse(array('api_token' => $session->get('api_token'), 'role'=>$token->getUser()->getUserType()));
+        return new JsonResponse($token->getUser()->getUserType());
     }
 
     /**
@@ -119,9 +119,14 @@ class FormAuthenticator extends AbstractGuardAuthenticator
      */
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception)
     {
-        $request->getSession()->set(Security::AUTHENTICATION_ERROR, $exception);
-        $url = $this->router->generate('login');
-        return new RedirectResponse($url);
+        $data = array(
+            'message' => strtr($exception->getMessageKey(), $exception->getMessageData())
+
+            // or to translate this message
+            // $this->translator->trans($exception->getMessageKey(), $exception->getMessageData())
+        );
+
+        return new JsonResponse($data, Response::HTTP_FORBIDDEN);
     }
 
     /**
@@ -134,6 +139,14 @@ class FormAuthenticator extends AbstractGuardAuthenticator
     }
 
     /**
+     * {@inheritdoc}
+     */
+//    public function supports(Request $request)
+//    {
+//        return false;
+//    }
+
+        /**
      * {@inheritdoc}
      */
     public function supportsRememberMe()

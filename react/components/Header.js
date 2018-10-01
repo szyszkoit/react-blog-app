@@ -1,4 +1,5 @@
 import Login from './Login';
+import Register from './Register';
 import Home from "./Home/Home";
 import Admin from "./Admin/Admin";
 import About from "./About/About";
@@ -23,28 +24,53 @@ class Header extends Component {
   constructor(){
     super();
     this.state = {
-      authenticated: sessionStorage.getItem('api_token')? true : false
+      authenticated:false,
+      admin: false
 
     };
     this.onLogin = this.onLogin.bind(this);
     this.onLogout = this.onLogout.bind(this);
   };
+  componentWillMount(){
+      const self = this;
+      $.ajax({
+          type: 'POST',
+          url: '/auth',
+          success: function(data){
+              console.log(data);
+              var admin;
+              if(data == 'ROLE_ADMIN'){
+                admin = true;
+              }else{
+                admin = false
+              }
+              self.setState({authenticated: true, admin: admin});
+          },
+          error: function(error){
+              // console.log(error);
+              if(error.responseJSON) {
+                  console.log(error.responseJSON);
+              }
+          }
+      });
+  }
 
   onLogin (loginStatus){
     this.setState({authenticated: loginStatus});
     window.location.href="/";
   }
   onLogout (){
-    sessionStorage.removeItem('api_token');
     this.setState({authenticated: false});
     window.location.href="/logout";
   }
+
   render(){
 
     const MyPostPage = (props) => {
       return (
         <PostDetails
           posts={this.props.posts}
+          authenticated={this.state.authenticated}
           {...props}
         />
       );
@@ -53,18 +79,28 @@ class Header extends Component {
       return (
         <Admin
           posts={this.props.posts}
+          admin={this.state.admin}
           {...props}
         />
       );
     };
     const MyLoginPage = (props) => {
-      return (
-        <Login
-          onLogin={this.onLogin}
-          {...props}
-        />
-      );
-    };
+          return (
+              <Login
+                  onLogin={this.onLogin}
+                  {...props}
+              />
+          );
+      };
+      const MyRegisterPage = (props) => {
+          return (
+              <Register
+                  onLogin={this.onLogin}
+                  {...props}
+              />
+          );
+      };
+
     return(
     <Router>
       <Grid>
@@ -72,25 +108,22 @@ class Header extends Component {
           <Navbar inverse collapseOnSelect>
             <Navbar.Header>
               <Navbar.Brand>
-                <Link to="/">Brand</Link>
+                <Link to="/">Logo</Link>
               </Navbar.Brand>
               <Navbar.Toggle/>
             </Navbar.Header>
             <Navbar.Collapse>
               <Nav>
                 <NavItem eventKey={1} href="#">
-                  <Link to="/about">About</Link>
-                </NavItem>
-                <NavItem eventKey={2} href="#">
-                  <Link to="/contact">Contact</Link>
+                  <Link to="/">Strona Główna</Link>
                 </NavItem>
               </Nav>
               <Nav pullRight>
                 <NavItem eventKey={1} href="#">
-                  <Link to="/admin">Admin</Link>
+                    {this.state.admin ? <Link to="/admin">Panel Administratora</Link> : <div></div>}
                 </NavItem>
                 <NavItem eventKey={2} href="#">
-                  {this.state.authenticated ? <Link to="/logout" onClick={this.onLogout}>Logout</Link> : <Link to="/login">Login</Link>}
+                    {this.state.authenticated ? <Link to="/logout" onClick={this.onLogout}>Wyloguj</Link> : <div><Link to="/login">Zaloguj się</Link><span> / </span><Link to="/register">Zarejestruj się</Link></div>}
                   {/*<Link to="/login">Login</Link>*/}
                 </NavItem>
               </Nav>
@@ -101,9 +134,8 @@ class Header extends Component {
           <Home posts={this.props.posts}/>
         )}/>
         <Route path="/post/:slug" component={MyPostPage}/>
-        <Route path="/about" component={About}/>
         <Route path="/login" component={MyLoginPage}/>
-        <Route path="/contact" component={Contact}/>
+        <Route path="/register" component={MyRegisterPage}/>
         <Route path="/admin" component={MyAdminPage}/>
         {/*<PrivateRoute path="/protected" component={Protected} />*/}
       </Grid>

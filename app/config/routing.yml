@@ -4,6 +4,12 @@ loginPath:
     requirements:
         _method:  POST
 
+auth:
+    path:  /auth
+    defaults: { _controller: AppBundle:login:auth }
+    requirements:
+        _method:  POST
+
 getPosts:
     path:  /getposts
     defaults: { _controller: AppBundle:posts:getposts }
@@ -41,6 +47,20 @@ addComment:
     defaults: { _controller: AppBundle:comments:addComment }
     requirements:
         _method:  POST
+
+adminPosts:
+    path:  /admin/posts
+    defaults: { _controller: AppBundle:adminPosts:adminPosts }
+    requirements:
+        slug: .*/$
+        _method:  GET
+
+adminEditPostDetails:
+    path:  /admin/edit-post/{slug}
+    defaults: { _controller: AppBundle:adminPosts:editPostSlug }
+    requirements:
+        slug: .*/$
+        _method:  GET
 
 app:
     resource: '@AppBundle/Controller/'

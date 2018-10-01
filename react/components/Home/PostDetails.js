@@ -3,6 +3,7 @@ import React, { Component, PureComponent } from 'react';
 import {Link} from 'react-router-dom';
 import AddCommentForm from '../Comments/AddCommentForm';
 import CommentList from "../Comments/CommentList";
+import ReactHtmlParser, { processNodes, convertNodeToElement, htmlparser2 } from 'react-html-parser';
 import {
   ListGroup,
   ListGroupItem,
@@ -45,9 +46,9 @@ class PostDetails extends Component {
     };
     componentWillMount() {
       if(this.props.posts.length > 0) {
+          console.log(this.props);
         var parts = window.location.href.split('/');
         var answer = parts[parts.length - 1];
-
         const posts = this.props.posts;
         // Car Id from param
         const slug = answer;
@@ -86,8 +87,8 @@ class PostDetails extends Component {
                                 <img src={this.state.post[0].image} alt={this.state.post[0].title}/>
                             </div>
                         </Col>
-                      <Col sm={6} md={4}>
-                        {this.state.post[0].body}
+                      <Col sm={6} md={8}>
+                          { ReactHtmlParser(this.state.post[0].body) }
                       </Col>
                     </Row>
                     <Row className="commentListRow">
@@ -97,7 +98,7 @@ class PostDetails extends Component {
                         <CommentList comments={this.state.comments}/>
                     </Row>
                     <Row className="addCommentRow">
-                        <AddCommentForm postID={this.state.post[0].id} commentsHandler = {this.commentsHandler}/>
+                        {this.props.authenticated ? <AddCommentForm postID={this.state.post[0].id} commentsHandler = {this.commentsHandler}/> : <Col sm={8}><p>Musisz być zalogowany aby dodawać komentarze</p></Col>}
                     </Row>
                     <Row>
                       <Col sm={8}>

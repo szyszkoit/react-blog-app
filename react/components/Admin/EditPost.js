@@ -10,6 +10,7 @@ import {
     FormGroup,
     ControlLabel,
 } from 'react-bootstrap';
+import {addNotification} from "../Common/notifications";
 import ReactQuill from 'react-quill';
 import ReactCrop, { makeAspectCrop } from 'react-image-crop';
 
@@ -52,17 +53,20 @@ class EditPost extends Component {
         }
     };
     componentDidMount() {
-      document.getElementsByClassName('postTitle')[0].value = this.state.post[0].title;
-      document.getElementsByClassName('postSlug')[0].value = this.state.post[0].slug;
-      document.getElementsByClassName('postShortDescription')[0].value = this.state.post[0].description;
-      document.getElementsByClassName('ql-editor')[0].innerHTML = this.state.post[0].body;
+        if(this.props.posts.length > 0) {
+            console.log(this.props);
+            document.getElementsByClassName('postTitle')[0].value = this.state.post[0].title;
+            document.getElementsByClassName('postSlug')[0].value = this.state.post[0].slug;
+            document.getElementsByClassName('postShortDescription')[0].value = this.state.post[0].description;
+            document.getElementsByClassName('ql-editor')[0].innerHTML = this.state.post[0].body;
 
 
-      var resultDiv = document.getElementsByClassName('crop-result');         // Create a text node
-      resultDiv[0].innerHTML = '';
-      var node = document.createElement("img");                 // Create a <li> node
-      node.setAttribute('src', this.state.post[0].image);
-      resultDiv[0].appendChild(node);
+            var resultDiv = document.getElementsByClassName('crop-result');         // Create a text node
+            resultDiv[0].innerHTML = '';
+            var node = document.createElement("img");                 // Create a <li> node
+            node.setAttribute('src', this.state.post[0].image);
+            resultDiv[0].appendChild(node);
+        }
     }
     onSelectFile (e) {
         if (e.target.files && e.target.files.length > 0) {
@@ -150,10 +154,13 @@ class EditPost extends Component {
             },
             success: function(username){
                 console.log(username);
+                addNotification('Zmiany zostały zapisane.', 'success');
+
                 //self.props.commentsHandler(username, data.get('comment'))
             },
             error: function(error){
                 // console.log(error);
+                addNotification('Przy edycji postu wystąpił błąd.', 'error');
                 if(error.responseJSON) {
                     //console.log(error.responseJSON);
                 }
@@ -223,6 +230,7 @@ class EditPost extends Component {
                         {/*</Col>*/}
                     </Panel.Body>
                 </Panel>
+                <div className="notification-div"></div>
             </Col>
         );
     }

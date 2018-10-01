@@ -1,6 +1,8 @@
 // ./components/Home.jsx
 import React, { Component } from 'react';
 import {Link} from "react-router-dom";
+import Popup from "reactjs-popup";
+import {addNotification} from "../Common/notifications";
 import {
     Table,
     Grid,
@@ -13,8 +15,13 @@ import EditPost from "./EditPost";
 class AdminPosts extends Component {
   constructor() {
     super();
+      this.state = {
+          showPopup: false
+      };
     this.deletePost = this.deletePost.bind(this);
+    //this.addNotification = this.addNotification.bind(this);
   }
+
   deletePost(id) {
     const self = this;
     $.ajax({
@@ -26,9 +33,13 @@ class AdminPosts extends Component {
       success: function(data){
           console.log(data);
         self.props.deletePost(id);
+        addNotification('Post został pomyślnie usunięty.', 'success');
+        //cleanUpNotification();
       },
       error: function(error){
         // console.log(error);
+          addNotification('Post nie może zostać usunięty!', 'error');
+          //cleanUpNotification();
         if(error.responseJSON) {
           console.log(error.responseJSON);
         }
@@ -45,7 +56,7 @@ class AdminPosts extends Component {
     const postNode = posts.map((post) => {
       return (
         <tr>
-          <td>{post.id}</td>
+            <td>{post.id}</td>
           <td>{post.title}</td>
           <td>
               <Link
@@ -55,7 +66,38 @@ class AdminPosts extends Component {
                 <button className="btn btn-info">Edit</button>
               </Link>
             <span></span>
-            <button className="btn btn-danger" onClick={() => { this.deletePost(post.id) }}>x</button></td>
+            {/*<button className="btn btn-danger" >x</button></td>*/}
+                <Popup trigger={<button className="btn btn-danger">x</button>} modal>
+                    {close => (
+                        <div className="modal">
+                            <a className="close" onClick={close}>
+                                &times;
+                            </a>
+                            <div className="header">
+                                <p>Jesteś pewien?</p>
+                            </div>
+                            <div className="actions">
+                                <div className="row">
+                                    <div className="col-xs-6 text-center">
+                                        <button className="btn btn-danger" onClick={() => { this.deletePost(post.id) }}>Usuń</button>
+                                    </div>
+                                    <div className="col-xs-6 text-center">
+                                        <button
+                                            className="btn btn-default"
+                                            onClick={() => {
+                                                close()
+                                            }}
+                                        >
+                                            Anuluj
+                                        </button>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    )}
+                </Popup>
+          </td>
         </tr>
       )
     });
@@ -83,8 +125,15 @@ class AdminPosts extends Component {
                     {postNode}
                     </tbody>
                   </Table>
+
                 </Col>
             </Row>
+            {/*<button onClick={e => {*/}
+                {/*e.preventDefault();*/}
+                {/*this.addNotification('Sukces!', 'Post został pomyślnie usunięty.', 'success')}} className="btn btn-primary">*/}
+                {/*Add Awesome Notification*/}
+            {/*</button>*/}
+            <div className="notification-div"></div>
         </Grid>
     );
   }

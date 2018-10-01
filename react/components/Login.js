@@ -15,6 +15,8 @@ import {
   MenuItem,
   NavDropdown
 } from 'react-bootstrap';
+import {Link} from "react-router-dom";
+
 // import {withRouter} from "react-router-dom";
 // import fakeAuth from './Common/fakeAuth';
 
@@ -50,8 +52,8 @@ class Login extends Component {
             },
             success: function(data){
                 console.log(data);
-                sessionStorage.setItem('api_token', data);
-                self.userLogged(true);
+                //sessionStorage.setItem('api_token', data);
+                window.location.href="/";
             },
             error: function(error){
                // console.log(error);
@@ -80,6 +82,7 @@ class Login extends Component {
                       id="username"
                       name="username"
                       type="text"
+                      required
                       placeholder=""
                     />
                     <ControlLabel>Hasło</ControlLabel>
@@ -87,11 +90,16 @@ class Login extends Component {
                       id="password"
                       name="password"
                       type="password"
+                      required
                       placeholder=""
                     />
                     <Col className="text-center" xs={12}>
                       <Button type="submit">Zaloguj</Button>
                     </Col>
+                      <Col className="text-center" xs={12}>
+                          <p>Nie ma jeszcze konta? <Link to="/register">Zarejestruj się.</Link></p>
+                      </Col>
+
                   </Form>
 
                 </Panel.Body>

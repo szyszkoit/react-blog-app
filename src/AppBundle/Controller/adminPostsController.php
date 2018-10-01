@@ -19,11 +19,22 @@ class adminPostsController extends Controller
 {
 
     /**
+     * @Route("/admin/posts", name="admin-posts")
+     */
+    public function adminPostsAction(Request $request)
+    {
+        return $this->render('default/index.html.twig');
+    }
+
+    /**
      * @Route("/admin/add-post", name="add-post")
      */
     public function addPostAction(Request $request, UserInterface $user)
     {
         $req = $request->request->all();
+        if(sizeof($req) == 0){
+            return $this->redirectToRoute('admin-posts');
+        }
         if($this->get('session')->get('api_token')) {
             $entityManager = $this->getDoctrine()->getManager();
             $post = new BlogPosts();
@@ -45,6 +56,18 @@ class adminPostsController extends Controller
         return new Response($result, 200);
     }
 
+    /**
+     * @Route("/admin/edit-post/{slug}", name="edit-post-slug")
+     */
+    public function editPostSlugAction(Request $request, UserInterface $user)
+    {
+//        $req = $request->request->all();
+//        if(sizeof($req) == 0){
+//            return $this->redirectToRoute('admin-posts');
+//        }
+        return $this->render('default/index.html.twig');
+
+    }
 
     /**
      * @Route("/admin/edit-post", name="edit-post")
@@ -52,6 +75,9 @@ class adminPostsController extends Controller
     public function editPostAction(Request $request, UserInterface $user)
     {
         $req = $request->request->all();
+        if(sizeof($req) == 0){
+            return $this->redirectToRoute('admin-posts');
+        }
         $em = $this->getDoctrine()->getManager();
         $post = $em->getRepository(BlogPosts::class)->find($req['_postId']);
         if (!$post) {
@@ -80,6 +106,9 @@ class adminPostsController extends Controller
     public function deletePostAction(Request $request)
     {
         $req = $request->request->all();
+        if(sizeof($req) == 0){
+            return $this->redirectToRoute('admin-posts');
+        }
         $em = $this->getDoctrine()->getManager();
 
 // Get a reference to the entity ( will not generate a query )

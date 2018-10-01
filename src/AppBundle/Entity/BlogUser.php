@@ -12,12 +12,6 @@ class BlogUser implements UserInterface
 {
     /**
      * @var string
-     *
-     * @ORM\Column(name="user_login", type="string", length=255, nullable=false)
-     */
-    private $userLogin;
-    /**
-     * @var string
      * @ORM\Column(name="user_name", type="string", length=127, nullable=false)
      */
     private $userName;
@@ -71,27 +65,6 @@ class BlogUser implements UserInterface
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $userId;
-    /**
-     * Set userLogin
-     *
-     * @param string $userLogin
-     *
-     * @return BlogUser
-     */
-    public function setUserLogin($userLogin)
-    {
-        $this->userLogin = $userLogin;
-        return $this;
-    }
-    /**
-     * Get userLogin
-     *
-     * @return string
-     */
-    public function getUserLogin()
-    {
-        return $this->userLogin;
-    }
     /**
      * Set userName
      *
