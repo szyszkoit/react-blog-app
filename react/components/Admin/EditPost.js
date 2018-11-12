@@ -155,6 +155,9 @@ class EditPost extends Component {
             success: function(username){
                 console.log(username);
                 addNotification('Zmiany zostały zapisane.', 'success');
+                setTimeout(function(){ window.location.href="/admin/posts";}, 2000);
+
+
 
                 //self.props.commentsHandler(username, data.get('comment'))
             },
@@ -172,9 +175,9 @@ class EditPost extends Component {
     render() {
         return (
             <Col sm={12}>
-                <Panel>
-                    <Panel.Heading>Dodaj Post</Panel.Heading>
-                    <Panel.Body>
+                <Panel className="blog-panel">
+                    <Panel.Heading className="blog-panel-heading">Edytuj Post</Panel.Heading>
+                    <Panel.Body className="blog-panel-body">
                         <Form onSubmit={e => {
                             e.preventDefault();
                             this.handleSubmit(e);}}
@@ -207,7 +210,10 @@ class EditPost extends Component {
                             <div>
                                 <input type="file" onChange={this.onSelectFile} />
                             </div>
-                            {this.state.src && (
+                            <Row className="photo-edit-div">
+                                <Col sm={6}>
+                                    <p>Wytnij zdjęcie:</p>
+                                    {this.state.src && (
                                 <ReactCrop
                                     src={this.state.src}
                                     crop={this.state.crop}
@@ -216,13 +222,21 @@ class EditPost extends Component {
                                     onChange={this.onCropChange}
                                 />
                             )}
-                            <div className="crop-result">
-
-                            </div>
+                                </Col>
+                                <Col sm={6}>
+                                    <p>Wynik edycji:</p>
+                                    <div className="crop-result">
+                                    </div>
+                                </Col>
+                            </Row>
                             {/*<Col className="text-right" xs={12}>*/}
-                            <div className="text-right">
-                                <Button type="submit">Wyślij</Button>
-                            </div>
+                            <Row>
+                                <Col xs={12}>
+                                    <div className="text-right">
+                                        <Button type="submit" className="blog-button-submit">Zapisz</Button>
+                                    </div>
+                                </Col>
+                            </Row>
                             {/*</Col>*/}
                         </Form>
                         {/*<Col className="text-center login-error" xs={12}>*/}

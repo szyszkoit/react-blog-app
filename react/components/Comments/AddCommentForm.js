@@ -10,6 +10,7 @@ import {
     FormGroup,
     ControlLabel,
 } from 'react-bootstrap';
+import {addNotification} from "../Common/notifications";
 // import {withRouter} from "react-router-dom";
 // import fakeAuth from './Common/fakeAuth';
 
@@ -34,10 +35,12 @@ class AddCommentForm extends Component {
             },
             success: function(username){
                 console.log(username);
-                self.props.commentsHandler(username, data.get('comment'))
-            },
+                self.props.commentsHandler(username, data.get('comment'));
+                addNotification('Twój komentarz został dodany.', 'success');
+                },
             error: function(error){
                 // console.log(error);
+                addNotification('Przy dodawaniu komentarza wystąpił błąd.', 'error');
                 if(error.responseJSON) {
                     console.log(error.responseJSON);
                 }
@@ -48,21 +51,25 @@ class AddCommentForm extends Component {
 
     render() {
         return (
-                <Col sm={8}>
+                <Col sm={12}>
                     <Panel>
-                        <Panel.Heading>Dodaj komentarz</Panel.Heading>
+                        <Row>
+                            <Col xs={12} className="dark-division-bar">
+                                <p>Dodaj komentarz</p>
+                            </Col>
+                        </Row>
                         <Panel.Body>
                             <Form onSubmit={e => {
                                 e.preventDefault();
                                 this.handleSubmit(e);}}
                             >
                                 <FormGroup controlId="formControlsTextarea">
-                                    <FormControl componentClass="textarea" name="comment" placeholder="Treść" />
+                                    <FormControl componentClass="textarea" name="comment" required minlength="10" placeholder="Treść" />
                                 </FormGroup>
 
                                 {/*<Col className="text-right" xs={12}>*/}
                                 <div className="text-right">
-                                    <Button type="submit">Wyślij</Button>
+                                    <Button type="submit" className="simple-blog-button">Wyślij</Button>
                                 </div>
                                 {/*</Col>*/}
                             </Form>
@@ -71,6 +78,7 @@ class AddCommentForm extends Component {
                             {/*</Col>*/}
                         </Panel.Body>
                     </Panel>
+                    <div className="notification-div"></div>
                 </Col>
         );
     }

@@ -16,6 +16,7 @@ import {
   NavDropdown
 } from 'react-bootstrap';
 import {Link} from "react-router-dom";
+import {addNotification} from "./Common/notifications";
 
 // import {withRouter} from "react-router-dom";
 // import fakeAuth from './Common/fakeAuth';
@@ -60,6 +61,7 @@ class Login extends Component {
               if(error.responseJSON) {
                 console.log(error.responseJSON);
               }
+                addNotification('Błędna nazwa użytkownika lub hasło.', 'error');
             }
         });
 
@@ -70,34 +72,36 @@ class Login extends Component {
               <Row>
                 <Col sm={3}></Col>
                 <Col sm={6}>
-              <Panel>
-                <Panel.Heading>Zaloguj się</Panel.Heading>
-                <Panel.Body>
+              <Panel className="blog-panel">
+                <Panel.Heading className="blog-panel-heading">Zaloguj się</Panel.Heading>
+                <Panel.Body className="blog-panel-body" >
                   <Form onSubmit={e => {
                     e.preventDefault();
                     this.handleLogin(e);}}
                   >
-                    <ControlLabel>Login</ControlLabel>
+                    {/*<ControlLabel>Login</ControlLabel>*/}
                     <FormControl
                       id="username"
                       name="username"
                       type="text"
                       required
-                      placeholder=""
+                      minlength="5"
+                      placeholder="Login"
                     />
-                    <ControlLabel>Hasło</ControlLabel>
+                    {/*<ControlLabel>Hasło</ControlLabel>*/}
                     <FormControl
                       id="password"
                       name="password"
                       type="password"
                       required
-                      placeholder=""
+                      minlength="5"
+                      placeholder="Hasło"
                     />
                     <Col className="text-center" xs={12}>
-                      <Button type="submit">Zaloguj</Button>
+                      <Button type="submit" className="blog-button-submit" >Zaloguj</Button>
                     </Col>
                       <Col className="text-center" xs={12}>
-                          <p>Nie ma jeszcze konta? <Link to="/register">Zarejestruj się.</Link></p>
+                          <p className="blog-panel-info">Nie ma jeszcze konta? <Link to="/register">Zarejestruj się.</Link></p>
                       </Col>
 
                   </Form>
@@ -106,6 +110,8 @@ class Login extends Component {
               </Panel>
                   </Col>
                 <Col sm={3}></Col>
+                  <div className="notification-div"></div>
+
               </Row>
         );
     }

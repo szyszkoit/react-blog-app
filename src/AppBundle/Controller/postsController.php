@@ -25,7 +25,7 @@ class postsController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $query = $em->createQuery(
-            "SELECT c FROM AppBundle:BlogPosts c"
+            "SELECT c FROM AppBundle:BlogPosts c order by c.id DESC"
         );
         $result = $query->getArrayResult();
         return new Response(json_encode($result, true), 200);

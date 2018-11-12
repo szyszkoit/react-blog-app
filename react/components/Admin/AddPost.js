@@ -12,6 +12,7 @@ import {
 } from 'react-bootstrap';
 import ReactQuill from 'react-quill';
 import ReactCrop, { makeAspectCrop } from 'react-image-crop';
+import {addNotification} from "../Common/notifications";
 
 
 class AddPost extends Component {
@@ -117,10 +118,13 @@ class AddPost extends Component {
             },
             success: function(username){
                 console.log(username);
-                //self.props.commentsHandler(username, data.get('comment'))
+                addNotification('Post został dodany.', 'success');
+                setTimeout(function(){ window.location.href="/admin/posts";}, 2000);
             },
             error: function(error){
                 // console.log(error);
+                addNotification('Przy dodawaniu posta wystąpił błąd.', 'error');
+
                 if(error.responseJSON) {
                     //console.log(error.responseJSON);
                 }
@@ -132,9 +136,9 @@ class AddPost extends Component {
     render() {
         return (
             <Col sm={12}>
-                <Panel>
-                    <Panel.Heading>Dodaj Post</Panel.Heading>
-                    <Panel.Body>
+                <Panel className="blog-panel">
+                    <Panel.Heading className="blog-panel-heading">Dodaj Post</Panel.Heading>
+                    <Panel.Body className="blog-panel-body">
                         <Form onSubmit={e => {
                             e.preventDefault();
                             this.handleSubmit(e);}}
@@ -159,22 +163,33 @@ class AddPost extends Component {
                             <div>
                                 <input type="file" onChange={this.onSelectFile} />
                             </div>
-                            {this.state.src && (
-                                <ReactCrop
-                                    src={this.state.src}
-                                    crop={this.state.crop}
-                                    onImageLoaded={this.onImageLoaded}
-                                    onComplete={this.onCropComplete}
-                                    onChange={this.onCropChange}
-                                />
-                            )}
-                            <div className="crop-result">
-
-                            </div>
+                            <Row className="photo-edit-div">
+                                <Col sm={6}>
+                                    <p>Wytnij zdjęcie:</p>
+                                {this.state.src && (
+                                    <ReactCrop
+                                        src={this.state.src}
+                                        crop={this.state.crop}
+                                        onImageLoaded={this.onImageLoaded}
+                                        onComplete={this.onCropComplete}
+                                        onChange={this.onCropChange}
+                                    />
+                                )}
+                                </Col>
+                                <Col sm={6}>
+                                    <p>Wynik edycji:</p>
+                                    <div className="crop-result">
+                                    </div>
+                                </Col>
+                            </Row>
                             {/*<Col className="text-right" xs={12}>*/}
-                            <div className="text-right">
-                                <Button type="submit">Wyślij</Button>
-                            </div>
+                            <Row>
+                                <Col xs={12}>
+                                    <div className="text-right">
+                                        <Button type="submit" className="blog-button-submit">Wyślij</Button>
+                                    </div>
+                                </Col>
+                            </Row>
                             {/*</Col>*/}
                         </Form>
                         {/*<Col className="text-center login-error" xs={12}>*/}
@@ -182,6 +197,7 @@ class AddPost extends Component {
                         {/*</Col>*/}
                     </Panel.Body>
                 </Panel>
+                <div className="notification-div"></div>
             </Col>
         );
     }

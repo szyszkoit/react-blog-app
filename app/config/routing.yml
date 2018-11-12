@@ -4,6 +4,13 @@ loginPath:
     requirements:
         _method:  POST
 
+checkIfExist:
+    path:  /checkifexist/{field}/{value}
+    defaults: { _controller: AppBundle:register:checkIfExist }
+    requirements:
+        slug: .*/$
+        _method:  GET
+
 auth:
     path:  /auth
     defaults: { _controller: AppBundle:login:auth }

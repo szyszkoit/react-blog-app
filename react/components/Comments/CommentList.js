@@ -12,7 +12,7 @@ class CommentList extends Component {
     render(){
         if(this.props.comments.length == 0){
           return(
-            <Col sm={8}>
+            <Col sm={12}>
               <p>Brak komentarzy</p>
             </Col>
           )
@@ -23,13 +23,13 @@ class CommentList extends Component {
             return (
 
                   <ListGroup>
-                    <ListGroupItem header={comment.userLogin}>{comment.comment}</ListGroupItem>
+                    <ListGroupItem header={comment.userName}>{comment.comment}</ListGroupItem>
                   </ListGroup>
 
             );
           });
           return (
-            <Col sm={8}>
+            <Col sm={12}>
               {commentNode}
             </Col>
           );

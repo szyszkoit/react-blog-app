@@ -37,7 +37,6 @@ class Admin extends Component {
                     //self.setState({authenticated: true, admin: admin});
                 },
                 error: function (error) {
-                    // console.log(error);
                     window.location.href = "/";
                 }
             });
@@ -55,13 +54,11 @@ class Admin extends Component {
                 //   _password: data.get('password')
                 // },
                 success: function (data) {
-                    //console.log(JSON.parse(data));
                     self.setState({
                         posts: JSON.parse(data)
                     })
                 },
                 error: function (error) {
-                    // console.log(error);
                     if (error.responseJSON) {
                         console.log(error.responseJSON);
                     }
@@ -102,27 +99,27 @@ class Admin extends Component {
     if(this.props.admin){
         return(
             <Router>
-                <Grid>
+                <div>
                     <Row>
                         <Col sm={12}>
-                            <Nav>
-                                <Link to="/admin/posts">
-                                    <div className="adminTile">
-                                        Posts
-                                    </div>
-                                </Link>
+                            <Nav className="adminNav">
+                                <li>
+                                    <Link to="/admin/posts">
+                                        <div className="adminTile">
+                                            Posty
+                                        </div>
+                                    </Link>
+                                </li>
                             </Nav>
                         </Col>
                     </Row>
-                    <Row>
-                        <Col sm={12}>
+                    <div className="adminContent">
                             <Route path="/admin/posts" component={MyAdminPostsPage}/>
                             <Route path="/admin/add-post" component={AddPost}/>
                             <Route path="/admin/edit-post/:slug" component={MyEditPostPage}/>
-                        </Col>
-                    </Row>
+                    </div>
                     {/*<PrivateRoute path="/protected" component={Protected} />*/}
-                </Grid>
+                </div>
             </Router>
         )
     }else{

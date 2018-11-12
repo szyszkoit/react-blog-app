@@ -53,7 +53,7 @@ class commentsController extends Controller
         //$em = $this->getDoctrine()->getManager();
 
         $ems = $this->getDoctrine()->getManager()->createQueryBuilder('u')
-            ->select('bc.comment', 'bu.userLogin')
+            ->select('bc.comment', 'bu.userName')
             ->from('AppBundle:BlogComments', 'bc')
             ->leftJoin('AppBundle:BlogUser', 'bu', 'WITH', 'bc.authorId = bu.userId')
             ->where("bc.postId = '".$req['_postID']."'" )

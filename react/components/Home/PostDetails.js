@@ -10,6 +10,8 @@ import {
   Row,
   Col
 } from 'react-bootstrap';
+import Moment from 'react-moment';
+
 class PostDetails extends Component {
     constructor(props) {
         super(props);
@@ -66,7 +68,7 @@ class PostDetails extends Component {
     commentsHandler(username, text) {
       console.log(this.state);
       console.log(username);
-      var comment = {comment: text, userLogin: username}
+      var comment = {comment: text, userName: username}
       this.setState({ comments: [...this.state.comments, comment] })
     };
 
@@ -79,31 +81,42 @@ class PostDetails extends Component {
         }else {
             return (
 
-                <div>
-                    <h1>{this.state.post[0].title}</h1>
+                <div className="content-div post-details-div">
                     <Row>
-                        <Col sm={6} md={4}>
-                            <div className="thumbnail">
-                                <img src={this.state.post[0].image} alt={this.state.post[0].title}/>
+                        <Col xs={12}>
+                            <div className="post-details-title">
+                                <h1>{this.state.post[0].title}</h1>
                             </div>
                         </Col>
-                      <Col sm={6} md={8}>
-                          { ReactHtmlParser(this.state.post[0].body) }
-                      </Col>
+                        <Col xs={12} className="dark-division-bar">
+                            <p>
+                                <Moment locale="pl" format="D MMM YYYY">
+                                    {this.state.post[0].updatedat.date}
+                                </Moment>
+                                {/*<Moment>{this.state.post[0].updatedat.date}</Moment>*/}</p>
+                        </Col>
+                    </Row>
+                    <Row className="post-details-text-div">
+                        <div className="thumbnail">
+                            <img src={this.state.post[0].image} alt={this.state.post[0].title}/>
+                        </div>
+                        { ReactHtmlParser(this.state.post[0].body) }
+                    </Row>
+                    <Row>
+                        <Col xs={12} className="dark-division-bar">
+                            <p>Komentarze</p>
+                        </Col>
                     </Row>
                     <Row className="commentListRow">
-                      <Col sm={8}>
-                        <h3>Komentarze</h3>
-                      </Col>
                         <CommentList comments={this.state.comments}/>
                     </Row>
                     <Row className="addCommentRow">
                         {this.props.authenticated ? <AddCommentForm postID={this.state.post[0].id} commentsHandler = {this.commentsHandler}/> : <Col sm={8}><p>Musisz być zalogowany aby dodawać komentarze</p></Col>}
                     </Row>
                     <Row>
-                      <Col sm={8}>
+                      <Col sm={12}>
                           <Link to="/">
-                              <button className="btn btn-default">Wróć</button>
+                              <button className="btn btn-default simple-blog-button">Wróć</button>
                           </Link>
 
                       </Col>

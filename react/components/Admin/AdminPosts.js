@@ -51,7 +51,6 @@ class AdminPosts extends Component {
 
     // Get data from route props
     const posts = this.props.posts;
-    console.log(posts);
 
     const postNode = posts.map((post) => {
       return (
@@ -63,7 +62,7 @@ class AdminPosts extends Component {
                   to={"/admin/edit-post/"+post.slug}
                     key={post.slug}
               >
-                <button className="btn btn-info">Edit</button>
+                <button className="btn btn-info">Edytuj</button>
               </Link>
             <span></span>
             {/*<button className="btn btn-danger" >x</button></td>*/}
@@ -103,15 +102,12 @@ class AdminPosts extends Component {
     });
 
     return (
-        <Grid>
-          <Row>
-              <Col xs={12}>
-                <Link to="/admin/add-post" >
-                    <button className="btn btn-default">Add post</button>
-                </Link>
-              </Col>
-          </Row>
-            <Row>
+        <Row>
+                <Col xs={12} className="text-right">
+                    <Link to="/admin/add-post">
+                        <button className="btn btn-default simple-blog-button">Add post</button>
+                    </Link>
+                </Col>
                 <Col xs={12}>
                   <Table striped bordered condensed hover>
                     <thead>
@@ -127,14 +123,13 @@ class AdminPosts extends Component {
                   </Table>
 
                 </Col>
-            </Row>
             {/*<button onClick={e => {*/}
                 {/*e.preventDefault();*/}
                 {/*this.addNotification('Sukces!', 'Post został pomyślnie usunięty.', 'success')}} className="btn btn-primary">*/}
                 {/*Add Awesome Notification*/}
             {/*</button>*/}
             <div className="notification-div"></div>
-        </Grid>
+        </Row>
     );
   }
 }

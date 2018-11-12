@@ -1,8 +1,10 @@
 // ./components/Home.jsx
 import React, { Component } from 'react';
 import {Link} from "react-router-dom";
-import Car from './Car';
-
+import {
+    Row,
+    Col
+} from 'react-bootstrap';
 class Home extends Component {
 
     render(){
@@ -16,26 +18,33 @@ class Home extends Component {
             backgroundSize: 'contain',
             backgroundRepeat: 'no-repeat',
             backgroundPosition: '50%'
-          }
+          };
             return (
-                <div className="post-div">
-                    <Link
-                        to={"/post/"+post.slug}
-                        className="list-group-item"
-                        key={post.slug}>
-                        <div className="post-div-img" style={tileStyle}>
-                            {/*<img src={post.image} alt={post.title} />*/}
-                        </div>
-                        <div class="post-div-title">
+                <Row className="post-div">
+
+                    <Col className="post-div-img" xs={4}>
+                        <img src={post.image} alt=""/>
+                    </Col>
+                    <Col className="post-div-text" xs={8}>
+                        <div className="post-div-title">
                             {post.title}
                         </div>
+                        <div className="post-div-description">
+                            {post.description}
+                        </div>
+                    </Col>
+
+                    <Link
+                    to={"/post/"+post.slug}
+                    className="list-group-item more"
+                    key={post.slug}>
+                        <div>Zobacz więcej...</div>
                     </Link>
-                </div>
+                </Row>
             )
         });
         return (
             <div>
-                <h1>Posts page</h1>
                 <div className="post-container">
                     {postNode}
                 </div>

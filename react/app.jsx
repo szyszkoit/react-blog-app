@@ -1,7 +1,11 @@
 import React, { Component } from 'react';
 import { render } from 'react-dom';
 import Header from "./components/Header";
-
+import Footer from "./components/Common/Footer";
+import {
+    Grid,
+    Col
+} from 'react-bootstrap';
 class App extends React.Component {
 
   constructor() {
@@ -39,7 +43,13 @@ class App extends React.Component {
   }
         render() {
           return (
-            <Header posts={this.state.posts}/>
+            <Grid>
+                <Header posts={this.state.posts}/>
+
+                {/*<Col xs={12}>*/}
+                <Footer />
+                {/*</Col>*/}
+            </Grid>
           )
         }
 }

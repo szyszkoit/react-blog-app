@@ -2,7 +2,7 @@ import Login from './Login';
 import Register from './Register';
 import Home from "./Home/Home";
 import Admin from "./Admin/Admin";
-import About from "./About/About";
+import Footer from "./Common/Footer";
 import Contact from "./Contact/Contact";
 import PostDetails from "./Home/PostDetails";
 import React, { Component } from 'react';
@@ -37,7 +37,6 @@ class Header extends Component {
           type: 'POST',
           url: '/auth',
           success: function(data){
-              console.log(data);
               var admin;
               if(data == 'ROLE_ADMIN'){
                 admin = true;
@@ -47,7 +46,6 @@ class Header extends Component {
               self.setState({authenticated: true, admin: admin});
           },
           error: function(error){
-              // console.log(error);
               if(error.responseJSON) {
                   console.log(error.responseJSON);
               }
@@ -102,30 +100,29 @@ class Header extends Component {
       };
 
     return(
+
     <Router>
-      <Grid>
+        <div>
         <Row>
           <Navbar inverse collapseOnSelect>
             <Navbar.Header>
               <Navbar.Brand>
-                <Link to="/">Logo</Link>
+                <Link to="/">.blog</Link>
               </Navbar.Brand>
               <Navbar.Toggle/>
             </Navbar.Header>
             <Navbar.Collapse>
               <Nav>
-                <NavItem eventKey={1} href="#">
                   <Link to="/">Strona Główna</Link>
-                </NavItem>
               </Nav>
               <Nav pullRight>
-                <NavItem eventKey={1} href="#">
+                {/*<NavItem eventKey={1} href="#">*/}
                     {this.state.admin ? <Link to="/admin">Panel Administratora</Link> : <div></div>}
-                </NavItem>
-                <NavItem eventKey={2} href="#">
-                    {this.state.authenticated ? <Link to="/logout" onClick={this.onLogout}>Wyloguj</Link> : <div><Link to="/login">Zaloguj się</Link><span> / </span><Link to="/register">Zarejestruj się</Link></div>}
+                {/*</NavItem>*/}
+
+                  {this.state.authenticated ? <Link to="/logout" onClick={this.onLogout}>Wyloguj</Link> : <div><Link to="/login">Zaloguj się</Link><Link to="/register">Zarejestruj się</Link></div>}
                   {/*<Link to="/login">Login</Link>*/}
-                </NavItem>
+
               </Nav>
             </Navbar.Collapse>
           </Navbar>
@@ -138,8 +135,9 @@ class Header extends Component {
         <Route path="/register" component={MyRegisterPage}/>
         <Route path="/admin" component={MyAdminPage}/>
         {/*<PrivateRoute path="/protected" component={Protected} />*/}
-      </Grid>
+        </div>
     </Router>
+
     )
   }
 }
