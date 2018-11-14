@@ -20,6 +20,7 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class FormAuthenticator extends AbstractGuardAuthenticator
 {
@@ -44,9 +45,10 @@ class FormAuthenticator extends AbstractGuardAuthenticator
 
     protected $manager;
 
-    public function __construct(RouterInterface $router, EntityManager $manager) {
+    public function __construct(RouterInterface $router, EntityManager $manager,UserPasswordEncoderInterface $encoder) {
         $this->router = $router;
         $this->manager = $manager;
+        $this->encoder = $encoder;
     }
     /**
      * {@inheritdoc}
@@ -85,10 +87,11 @@ class FormAuthenticator extends AbstractGuardAuthenticator
      */
     public function checkCredentials($credentials, UserInterface $user)
     {
-        if ($user->getPassword() === $credentials['password']) {
+        if ($this->encoder->isPasswordValid($user, $credentials['password'])) {
             return true;
         }
-        throw new CustomUserMessageAuthenticationException($this->failMessage);
+        else
+            throw new CustomUserMessageAuthenticationException($this->failMessage);
     }
 
     private function generateToken($token){
