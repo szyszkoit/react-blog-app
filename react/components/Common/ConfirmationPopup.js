@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 
-class ConfirmationPopup extends Component {
-    render() {
+const ConfirmationPopup = (props) =>{
         return (
             <div className='popup'>
                 <div className='popup_inner'>
@@ -10,6 +9,5 @@ class ConfirmationPopup extends Component {
                 </div>
             </div>
         );
-    }
 }
 export default ConfirmationPopup;
